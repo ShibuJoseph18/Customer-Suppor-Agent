@@ -1,0 +1,30 @@
+> tsx src/scripts/init-db.ts
+
+[db:init] Database directory exists: /Users/shibu.joseph/projects/customer-support-agent/data
+[db:init] Pushing schema (create/update tables)...
+No config path provided, using default 'drizzle.config.ts'
+Reading config file '/Users/shibu.joseph/projects/customer-support-agent/drizzle.config.ts'
+[✓] Pulling schema from database...
+[✓] Changes applied
+[db:init] Running seed...
+[seed] Inserted users, credentials, and social profiles.
+[seed] Inserted categories.
+[seed] Inserted products.
+[seed] Inserted carts.
+[seed] Inserted cart items.
+[seed] Inserted orders.
+[seed] Inserted order lines.
+[seed] Inserted reviews.
+
+────────── Seed user credentials (use for login) ──────────
+  admin@example.com  /  SeedPass123!
+  support@example.com  /  SeedPass123!
+  vendor@example.com  /  SeedPass123!
+  alice@example.com  /  SeedPass123!
+  bob@example.coeedPass123!
+  dave@example.com  /  SeedPass123!
+  eve@example.com  /  SeedPass123!
+  frank@example.com  /  SeedPass123!
+  grace@example.com  /  SeedPass123!
+────────────────────────────────────────────────────────────
+
