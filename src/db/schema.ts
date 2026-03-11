@@ -13,10 +13,14 @@ export const users = sqliteTable("users", {
   slug: text("slug").notNull().unique(),
   email: text("email").notNull().unique(),
   phone: text("phone"),
-  role: text("role", { enum: ["customer", "admin", "support", "vendor"] }).notNull(),
+  role: text("role", {
+    enum: ["customer", "admin"],
+  }).notNull(),
   name: text("name").notNull(),
   avatar: text("avatar"),
-  locale: text("locale", { enum: ["en", "es", "fr", "de", "ja"] }).notNull().default("en"),
+  locale: text("locale", { enum: ["en", "es", "fr", "de", "ja"] })
+    .notNull()
+    .default("en"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
   lastLogin: integer("last_login", { mode: "timestamp" }),
@@ -39,7 +43,7 @@ export const socialProfiles = sqliteTable(
     platformUser: text("platform_user").notNull(),
     createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   },
-  (t) => [primaryKey({ columns: [t.userId, t.platform] })]
+  (t) => [primaryKey({ columns: [t.userId, t.platform] })],
 );
 
 // ─── Credentials ───────────────────────────────────────────────────────────
@@ -57,7 +61,7 @@ export const credentials = sqliteTable(
     passwordHash: text("password_hash").notNull(),
     passwordSalt: text("password_salt").notNull(),
   },
-  (t) => [primaryKey({ columns: [t.providerId, t.providerKey] })]
+  (t) => [primaryKey({ columns: [t.providerId, t.providerKey] })],
 );
 
 // ─── Categories ────────────────────────────────────────────────────────────
@@ -69,7 +73,10 @@ export const categories = sqliteTable(
     slug: text("slug").notNull().unique(),
     name: text("name").notNull(),
     description: text("description").notNull(),
-    tags: text("tags", { mode: "json" }).$type<string[]>().notNull().default([]),
+    tags: text("tags", { mode: "json" })
+      .$type<string[]>()
+      .notNull()
+      .default([]),
     createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
     updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
   },
@@ -78,7 +85,7 @@ export const categories = sqliteTable(
       columns: [t.parentCategoryId],
       foreignColumns: [t.id],
     }),
-  ]
+  ],
 );
 
 // ─── Products ─────────────────────────────────────────────────────────────
@@ -94,7 +101,9 @@ export const products = sqliteTable("products", {
   price: real("price").notNull(),
   discountType: text("discount_type", {
     enum: ["percentage", "fixed_amount", "none"],
-  }).notNull().default("none"),
+  })
+    .notNull()
+    .default("none"),
   discountValue: real("discount_value").notNull().default(0),
   tags: text("tags", { mode: "json" }).$type<string[]>().notNull().default([]),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
@@ -108,7 +117,7 @@ export const carts = sqliteTable("carts", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   status: text("status", {
-    enum: ["active", "checkout", "purchased", "abandoned"],
+    enum: ["active", "purchased"],
   }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
@@ -126,9 +135,9 @@ export const cartItems = sqliteTable(
       .references(() => products.id, { onDelete: "cascade" }),
     price: real("price").notNull(),
     quantity: integer("quantity").notNull(),
-    createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull()
   },
-  (t) => [primaryKey({ columns: [t.cartId, t.productId] })]
+  (t) => [primaryKey({ columns: [t.cartId, t.productId] })],
 );
 
 // ─── Orders ───────────────────────────────────────────────────────────────
@@ -137,7 +146,13 @@ export const orders = sqliteTable("orders", {
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  status: text("status", {
+    enum: ["pending", "delivered", "cancelled"],
+  })
+    .notNull()
+    .default("pending"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt:  integer("updated_at", { mode: "timestamp" }).notNull(),
 });
 
 // ─── Order lines ───────────────────────────────────────────────────────────
