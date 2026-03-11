@@ -6,4 +6,8 @@ export const config = {
   database: {
     url: process.env.DATABASE_URL ?? "./data/sqlite.db",
   },
+  auth: {
+    jwtSecret: process.env.JWT_SECRET ?? "dev-secret-change-me",
+    jwtIssuer: process.env.JWT_ISSUER ?? "customer-support-agent",
+  },
 };
