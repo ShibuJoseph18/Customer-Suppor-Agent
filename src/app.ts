@@ -7,6 +7,7 @@ import { cartsRouter } from "./routes/carts.js";
 import { ordersRouter } from "./routes/orders.js";
 import { reviewsRouter } from "./routes/reviews.js";
 import { cartItemsRouter } from "./routes/cartItems.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 export const app = new Koa();
 
@@ -16,6 +17,7 @@ rootRouter.get("/health", (ctx) => {
   ctx.body = { status: "ok" };
 });
 
+app.use(errorHandler);
 app.use(bodyParser());
 
 app.use(rootRouter.routes()).use(rootRouter.allowedMethods());
