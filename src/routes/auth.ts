@@ -33,6 +33,8 @@ const loginSchema = z.object({
   password: z.string().min(1, "Password is required").trim(),
 });
 
+export type LoginSchema = z.infer<typeof loginSchema>;
+
 // POST /auth/register
 authRouter.post("/register", validate(registerSchema, "body"), register);
 
