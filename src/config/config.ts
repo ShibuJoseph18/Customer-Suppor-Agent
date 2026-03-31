@@ -10,4 +10,5 @@ export const config = {
     jwtSecret: process.env.JWT_SECRET ?? "dev-secret-change-me",
     jwtIssuer: process.env.JWT_ISSUER ?? "customer-support-agent",
   },
+  openAiApiKey: process.env.OPENAI_API_KEY
 };
